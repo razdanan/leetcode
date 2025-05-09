@@ -1,0 +1,80 @@
+Target: HTTP:80/healthz
+Healthy threshold: 3
+Unhealthy threshold: 2
+Timeout: 5 seconds
+Interval: 30 seconds
+
+
+You should expose a /healthz endpoint from your Istio Ingress Gateway or a dummy backend to return 200 OK when healthy.
+
+livenessProbe:
+  httpGet:
+    path: /healthz/ready
+    port: 15021
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 2
+  failureThreshold: 3
+  successThreshold: 1
+
+readinessProbe:
+  httpGet:
+    path: /healthz/ready
+    port: 15021
+  initialDelaySeconds: 5
+  periodSeconds: 5
+  timeoutSeconds: 2
+  failureThreshold: 3
+  successThreshold: 1
+
+Note: Port 15021 is the default health port in Istio for the control plane probe agent.
+# Flask example
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/healthz')
+def healthz():
+    return "OK", 200
+templates/deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-gateway
+  labels:
+    app: {{ .Release.Name }}-gateway
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-gateway
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-gateway
+        istio: ingressgateway
+    spec:
+      containers:
+        - name: istio-ingress
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: 8080
+            - containerPort: 15021  # Istio health port
+          readinessProbe:
+            httpGet:
+              path: /healthz/ready
+              port: 15021
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /healthz/ready
+              port: 15021
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 3
+
+
