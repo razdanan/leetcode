@@ -1,0 +1,51 @@
+# Operational Model – Cloud Feature Delivery
+
+## 📌 Overview
+This model describes how cloud features — including customer capabilities, engineering and operational enhancements, hygiene, and infrastructure upgrades — are sourced, planned, and delivered through cross-functional PODs.
+
+---
+
+## 📈 Workflow Structure
+
+### 1. **Business Technology Office (BTO)**
+- Partners with Product Owners to:
+  - Capture cloud feature requirements from business
+  - Translate business needs into technical asks
+
+⬇️
+
+### 2. **Product Owners (POs)**
+- Work with BTO to:
+  - Refine and prioritize feature requirements
+  - Create and maintain stories on **Jira Boards**
+  - Align features with cloud strategy and platform roadmap
+
+⬇️
+
+### 3. **POD Teams (Pizza-Size Teams)**
+Each POD is a small, cross-functional team composed of:
+- **Cloud Principal Engineers**
+  - Guide architecture and standards
+  - Ensure technical feasibility
+- **Delivery Engineers**
+  - Build, test, deploy, and operate features
+
+🔄 POD Responsibilities:
+- Own a feature from design to production
+- Collaborate daily using Agile ceremonies
+- Deliver incremental value and iterate fast
+
+---
+
+## 🔁 Cadence & Communication Flow
+- **Daily Standups**: Within PODs for sync and blockers  
+- **Backlog Grooming**: POs + PODs using Jira  
+- **Feature Planning**: BTO + POs  
+- **Architecture Syncs**: Principal Engineers across PODs
+
+---
+
+## ✅ Key Benefits
+- Tighter alignment between business and engineering  
+- Feature ownership through full lifecycle  
+- Agile and scalable delivery with minimal overhead  
